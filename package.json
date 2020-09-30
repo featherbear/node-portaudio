@@ -1,0 +1,19 @@
+{
+  "name": "node-portaudio",
+  "version": "1.0.0",
+  "description": "Wrapper over Streampunk/naudiodon's node.js PortAudio bindings",
+  "main": "portaudioLib.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/featherbear/node-portaudio.git"
+  },
+  "author": "featherbear",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/featherbear/node-portaudio/issues"
+  },
+  "homepage": "https://github.com/featherbear/node-portaudio#readme",
+  "dependencies": {
+    "naudiodon": "^2.2.4"
+  }
+}
