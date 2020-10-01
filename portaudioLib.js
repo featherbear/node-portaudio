@@ -48,13 +48,33 @@ module.exports.getInputDevices = () => {
   let types = portAudio.getHostAPIs()
 
   // Attach type to name
-  types.HostAPIs.forEach(({ name, type }) => (inputDevices[name].type = type))
+  types.HostAPIs.forEach(
+    ({ name, type }) => inputDevices[name] && (inputDevices[name].type = type)
+  )
 
   // Attach default device list
-  inputDevices.default =
+  inputDevices.__proto__.default =
     inputDevices[
       types.HostAPIs.find(({ id }) => id == types.defaultHostAPI).name
     ]
+
+  // Second level condition
+  const lookupBase = condition => {
+    for (let set of Object.values(inputDevices)) {
+      let device = set.find(condition)
+      if (device) return device
+    }
+
+    return null
+  }
+
+  // Lookup by Id
+  inputDevices.__proto__.getById = deviceId =>
+    lookupBase(({ id }) => id == deviceId)
+
+  // Lookup by Name
+  inputDevices.__proto__.getByName = deviceName =>
+    lookupBase(({ name }) => name == deviceName)
 
   return inputDevices
 }
