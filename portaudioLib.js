@@ -9,6 +9,25 @@ For web-ltc, we'll try to use the RTC / HTML5 Audio API
 
 const portAudio = require('naudiodon')
 
+module.exports = {
+  // From naudiodon
+  SampleFormatFloat32: 1,
+  SampleFormat8Bit: 8,
+  SampleFormat16Bit: 16,
+  SampleFormat24Bit: 24,
+  SampleFormat32Bit: 32
+}
+
+/* // Node.js 12
+Object.fromEntries(
+  Object.entries(portAudio)
+  .filter(
+    ([key, value]) => Number.isInteger(value)
+  )
+)
+*/
+
+// Get input devices
 module.exports.getInputDevices = () => {
   inputDevices = portAudio
     .getDevices()
