@@ -59,17 +59,36 @@ module.exports.getInputDevices = () => {
   return inputDevices
 }
 
-module.exports.createStream = ({
-  id: deviceId = 0,
-  maxInputChannels: channelCount = 1,
-  defaultSampleRate: sampleRate = 44100
-}) =>
-  new portAudio.AudioIO({
+function e(err) { throw new Error(err) }
+
+/**
+ * @param {Object} option - Options
+ * @param {Device} device - Device from getInputDevices(), or undefined
+ */
+module.exports.createStream = (
+  {
+    deviceId,
+    channelCount,
+    sampleFormat = portAudio.SampleFormat16Bit,
+    sampleRate,
+    deviceId,
+    closeOnError = true
+  } = {},
+  device
+) => {
+  if (!!device) {
+    deviceId = device.id || deviceId || e('No device ID supplied')
+    channelCount = channelCount || device.maxInputChannels || 1
+    sampleRate = sampleRate || device.defaultSampleRate || 44100
+  }
+
+  return new portAudio.AudioIO({
     inOptions: {
       channelCount,
-      sampleFormat: portAudio.SampleFormat16Bit,
+      sampleFormat,
       sampleRate,
       deviceId,
       closeOnError: true
     }
   })
+}
